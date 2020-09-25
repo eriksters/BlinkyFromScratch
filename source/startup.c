@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "main.h"
 
 #define SRAM_START      0x20000000U
 #define SRAM_SIZE       (128 * 1024)
