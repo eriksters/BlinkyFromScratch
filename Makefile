@@ -8,8 +8,8 @@ C_SRC=$(wildcard $(SRC_DIR)/*.c)
 OBJ=$(addprefix $(BUILD_DIR)/,$(notdir $(C_SRC:.c=.o)))
 
 CC=arm-none-eabi-gcc
-C_FLAGS=-c -mcpu=cortex-m4 -mthumb -Wall -I$(INC_DIR)
-LDFLAGS=-nostdlib -T stm32f469ni.ld -Wl,-Map=$(BUILD_DIR)/final.map
+C_FLAGS=-c -mcpu=cortex-m4 -mthumb -Wall -g -I$(INC_DIR)
+LDFLAGS=-nostdlib -T stm32f469ni.ld -g -Wl,-Map=$(BUILD_DIR)/final.map
 
 $(BUILD_DIR)/$(TARGET): $(OBJ)
 	$(CC) $(LDFLAGS) -o $@ $^

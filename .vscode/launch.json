@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "name": "Debug (OpenOCD)",
+            "servertype": "openocd",
+            "cwd": "${workspaceRoot}",
+            "runToMain": false,
+            "executable": "${workspaceRoot}/build/final.elf",
+            "device": "STM32F469NI",
+            "configFiles": [
+                "/usr/share/openocd/scripts/board/stm32f469discovery.cfg"
+            ],
+            "gdbpath": "gdb-multiarch",
+            "svdFile": "${workspaceRoot}/.vscode/STM32F469.svd",
+            "swoConfig": {
+                "enabled": true,
+                "cpuFrequency": 8000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    { "type": "console", "label": "ITM", "port": 0 }
+                ]
+            }
+        }
+    ]
+}
