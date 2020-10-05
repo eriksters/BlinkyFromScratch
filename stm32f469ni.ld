@@ -19,17 +19,23 @@ SECTIONS
         *(.isr_vectors)
         *(.text)
         *(.rodata)
+        _etext = .;
     } > FLASH
 
     /* Initialized static data (Copied to RAM at startup) */
     .data :
     {
+        _sdata = .;
         *(.data)
+        _edata = .;
     } > SRAM AT> FLASH
 
     /* Uninitialized static data */
     .bss :
     {
+        _sbss = .;
         *(.bss)
+        *(COMMON)
+        _ebss = .;
     } > SRAM
 }

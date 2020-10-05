@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include "main.h"
 
 #define SRAM_START      0x20000000U
 #define SRAM_SIZE       (128 * 1024)
@@ -7,6 +6,14 @@
 
 #define STACK_START     SRAM_END
 
+//  Symbols created during linking
+extern uint32_t _etext;
+extern uint32_t _sdata;
+extern uint32_t _edata;
+extern uint32_t _sbss;
+extern uint32_t _ebss;
+
+int main( void );
 
 void Reset_Handler(void);
 void NMI_Handler(void)                  __attribute__((weak, alias("Default_Handler")));
@@ -236,5 +243,23 @@ void Default_Handler(void) {
 }
 
 void Reset_Handler(void) {
-    //  ToDo
+    // Copy data Section to SRAM
+    uint32_t size = &_edata - &_sdata;
+
+    uint8_t *pDst = (uint8_t*) &_sdata;     // From Flash
+    uint8_t *pSrc = (uint8_t*) &_etext;     // To SRAM
+
+    for (uint32_t i = 0; i < size; i++) {
+        *pDst++ = *pSrc++;
+    }
+
+    // Init .bss to 0
+    size = &_ebss - &_sbss;
+    pDst = (uint8_t*) &_sbss;
+    for (uint32_t i = 0; i < size; i ++) {
+        *pDst++ = 0;
+    }
+
+    // Call Main
+    main();
 }
